@@ -71,13 +71,14 @@ class Pracownik {
     string nazwisko;
     SklepPapierniczy* sklep;
 
-public:
-    string getImie() { return imie; };
-    string getNazwisko() { return nazwisko; }
-    SklepPapierniczy* getSklep() { return sklep; }
-    void setSklep(SklepPapierniczy* sklep) {
+    public:
+    string getImie(){return imie;};
+    string getNazwisko(){return nazwisko;}
+    SklepPapierniczy* getSklep(){return sklep;}
+    void setSklep(SklepPapierniczy* sklep){
         this->sklep = sklep;
     };
+
     Pracownik(string imie, string nazwisko, SklepPapierniczy* sklep = NULL) {
         this->imie = imie;
         this->nazwisko = nazwisko;
@@ -101,8 +102,12 @@ class Zeszyt : public ProduktPapierniczy {
     int liczbaStron;
 
 public:
-    Zeszyt(string rodzaj, string nazwa, double cena, int liczbaStron)
-        : ProduktPapierniczy(rodzaj, nazwa, cena), liczbaStron(liczbaStron) {}
+    Zeszyt(string rodzaj, string nazwa, double cena, int liczbaStron){
+        this->rodzaj = rodzaj;
+        this->nazwa = nazwa;
+        this->cena = cena;
+        this->liczbaStron = liczbaStron;
+    }
 };
 
 class Kredki : public ProduktPapierniczy {
@@ -110,15 +115,19 @@ class Kredki : public ProduktPapierniczy {
     bool czyDrewniane;
 
 public:
-    Kredki(string rodzaj, string nazwa, double cena, int liczbaSztuk, bool czyDrewniane)
-        : ProduktPapierniczy(rodzaj, nazwa, cena), liczbaSztuk(liczbaSztuk), czyDrewniane(czyDrewniane) {}
+    Kredki(string rodzaj, string nazwa, double cena, int liczbaSztuk, bool czyDrewniane){
+        this->rodzaj = rodzaj;
+        this->nazwa = nazwa;
+        this->cena = cena;
+        this->liczbaSztuk = liczbaSztuk;
+        this->czyDrewniane = czyDrewniane;
+    }
 };
 
 class Sprzedawca : public Pracownik {
-public:
+    public:
     void sprzedajProdukt(string rodzaj, string nazwa);
-    Sprzedawca(string imie, string nazwisko, SklepPapierniczy* sklep = NULL)
-        : Pracownik(imie, nazwisko, sklep) {}
+    Sprzedawca(string imie, string nazwisko, SklepPapierniczy* sklep = NULL) : Pracownik(imie, nazwisko, sklep){}
 };
 
 class Zaopatrzeniowiec : public Pracownik {
@@ -149,8 +158,13 @@ public:
 };
 
 int main() {
+
     SklepPapierniczy* sklep1 = new SklepPapierniczy;
     Zeszyt* zeszyt1 = new Zeszyt("A4", "Zeszyt", 5.0, 100);
+    for(int i = 1 ; i < 5 ; i++){
+        Kredki* kredki1 = new Kredki("Pastelowe","kredki",i,20,0);
+        sklep1->dodajNaStan(kredki1);
+    }
     sklep1->dodajNaStan(zeszyt1);
     sklep1->wyswietlProdukty();
 
