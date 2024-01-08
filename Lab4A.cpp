@@ -9,9 +9,9 @@ class ProduktPapierniczy{
     double cena;
     public:
     
-    string getRodzaj(){return rodzaj;}
-    string getNazwa(){return nazwa;}
-    double getCena(){return cena;}
+    virtual string getRodzaj() = 0;
+    virtual string getNazwa() = 0;
+    virtual double getCena() = 0;
 };
 
 class SklepPapierniczy{
@@ -76,9 +76,9 @@ class Pracownik{
 class Koperta : public ProduktPapierniczy{
     string format;
     public:
-    string getRodzaj(){return rodzaj;}
-    string getNazwa(){return nazwa;}
-    double getCena(){return cena;}
+    string getRodzaj() override {return rodzaj;}
+    string getNazwa() override {return nazwa;}
+    double getCena() override {return cena;}
     string getFormat(){return format;}
     Koperta(string rodzaj,string nazwa, double cena, string format){
         this->rodzaj = rodzaj;
@@ -91,9 +91,9 @@ class Koperta : public ProduktPapierniczy{
 class Zeszyt : public ProduktPapierniczy{
     int liczbaStron;
     public:
-    string getRodzaj(){return rodzaj;}
-    string getNazwa(){return nazwa;}
-    double getCena(){return cena;}
+    string getRodzaj() override {return rodzaj;}
+    string getNazwa() override {return nazwa;}
+    double getCena() override {return cena;}
     int getLiczbaStron(){return liczbaStron;}
     Zeszyt(string rodzaj, string nazwa, double cena, int liczbaStron){
         this->rodzaj = rodzaj;
@@ -107,9 +107,9 @@ class Kredki : public ProduktPapierniczy{
     int liczbaSztuk;
     bool czyDrewniane;
     public:
-    string getRodzaj(){return rodzaj;}
-    string getNazwa(){return nazwa;}
-    double getCena(){return cena;}
+    string getRodzaj() override {return rodzaj;}
+    string getNazwa() override {return nazwa;}
+    double getCena() override {return cena;}
     int getLiczbaStron(){return liczbaSztuk;}
     bool getCzyDrewniane(){return czyDrewniane;}
     Kredki(string rodzaj, string nazwa, double cena, int liczbaSztuk, bool czyDrewniane){
@@ -152,12 +152,18 @@ class Zaopatrzeniowiec : public Pracownik{
 };
 
 int main(){
+    
     SklepPapierniczy* sklep1 = new SklepPapierniczy;
-    //Zeszyt* zeszyt1 = new Zeszyt;
-    //sklep1->dodajNaStan(zeszyt1);
+    Zeszyt* zeszyt1 = new Zeszyt("A4", "Zeszyt", 5.0, 100);
+    for(int i = 1 ; i < 5 ; i++){
+        Kredki* kredki1 = new Kredki("Pastelowe","kredki",10 + i,20,0);
+        sklep1->dodajNaStan(kredki1);
+    }
+    sklep1->dodajNaStan(zeszyt1);
     sklep1->wyswietlProdukty();
-
-
+    cout << "Po usunieciu zeszytu";
+    sklep1->zdejmijZeStanu(zeszyt1);
+    sklep1->wyswietlProdukty();
 
     return 0;
 }

@@ -50,7 +50,18 @@ class Zamowienie {
 public:
     string tabDodatkoweWyposazenie[4];
     Zamowienie(string marka, string model, double pojemnoscSilnika, int liczbaCylindrowSilnika,
-                int mocSilnika, int maxMomentObrotowySilnika, int rozmiarKol, string* tabDodatkoweWyposazenie);
+    int mocSilnika, int maxMomentObrotowySilnika, int rozmiarKol, string* tabDodatkoweWyposazenie){
+        this->marka = marka;
+        this->model = model;
+        this->pojemnoscSilnika = pojemnoscSilnika;
+        this-> liczbaCylindrowSilnika = liczbaCylindrowSilnika;
+        this->mocSilnika = mocSilnika;
+        this->maxMomentObrotowySilnika = maxMomentObrotowySilnika;
+        this->rozmiarKol = rozmiarKol;
+        for(int i = 0 ; i < 4 ; i++){
+            this->tabDodatkoweWyposazenie[i] = tabDodatkoweWyposazenie[i];  
+        }        
+    };
     string getMarka() { return marka; }
     string getModel() { return model; }
     double getPojemnoscSilnika() { return pojemnoscSilnika; }
@@ -92,6 +103,11 @@ public:
     void dodajWyposazenie(DodatkoweWyposazenie* wyposazenie);
     ~Samochod() {
         cout << "Zniszczono samochod\n";
+        delete silnik;
+        for(int i = 0 ; i < 4 ; i++){
+            delete kola[i];
+        }
+
     };
 };
 
@@ -102,9 +118,18 @@ class FabrykaSamochodow {
         this->nazwa = nazwa;
     }
     Samochod* wyprodukujSamochod(Zamowienie* zamowienie) {
-        return new Samochod(zamowienie->getMarka(), zamowienie->getModel(), zamowienie->getPojemnoscSilnika(),
+        Samochod* samochod = new Samochod(zamowienie->getMarka(), zamowienie->getModel(), zamowienie->getPojemnoscSilnika(),
             zamowienie->getLiczbaCylindrowSylnika(), zamowienie->getMocSilnika(), zamowienie->getMaxMomentObrotowy(),
             zamowienie->getRozmiarKol());
+        doposazWyprodukowaneAuto(samochod,zamowienie);
+        return samochod;
+    }
+        
+    void doposazWyprodukowaneAuto(Samochod* samochod, Zamowienie* zamowienie){
+        for(int i = 0 ; i < 4 ; i++){
+            DodatkoweWyposazenie* d = new DodatkoweWyposazenie(zamowienie->tabDodatkoweWyposazenie[i]);
+            samochod->dodajWyposazenie(d);
+        }
     }
 };
 
@@ -112,13 +137,13 @@ void Samochod::wyswietlSpecifikacje() {
     cout << "Specyfikacje samochodu:\n";
     cout << "Marka: " << marka << "\n";
     cout << "Model: " << model << "\n";
-    cout << "Pojemność silnika: " << silnik->getPojemnosc() << " litra\n";
-    cout << "Liczba cylindrów: " << silnik->getLiczbaCylindrow() << "\n";
+    cout << "Pojemnosc silnika: " << silnik->getPojemnosc() << " litra\n";
+    cout << "Liczba cylindrow: " << silnik->getLiczbaCylindrow() << "\n";
     cout << "Moc silnika: " << silnik->getMoc() << " KM\n";
     cout << "Max moment obrotowy: " << silnik->getMaxMomentObrotowy() << " Nm\n";
-    cout << "Rozmiar kół: " << kola[0]->getRozmiar() << " cali\n";
+    cout << "Rozmiar kol: " << kola[0]->getRozmiar() << " cali\n";
 
-    cout << "Dodatkowe wyposażenie:\n";
+    cout << "Dodatkowe wyposazenie:\n";
     for (int i = 0; i < 4; ++i) {
         if (dodatkoweWyposazenie[i] != nullptr) {
             cout << " - " << dodatkoweWyposazenie[i]->getNazwa() << "\n";
@@ -130,15 +155,34 @@ void Samochod::dodajWyposazenie(DodatkoweWyposazenie* wyposazenie) {
     for (int i = 0; i < 4; ++i) {
         if (dodatkoweWyposazenie[i] == nullptr) {
             dodatkoweWyposazenie[i] = wyposazenie;
-            cout << "Dodano wyposażenie: " << wyposazenie->getNazwa() << "\n";
+            cout << "Dodano wyposazenie: " << wyposazenie->getNazwa() << "\n";
             return;
         }
     }
-    cout << "Nie można dodać więcej wyposażenia, limit: 4\n";
+    cout << "Nie mozna dodac wiecej wyposazenia, limit: 4\n";
 }
 
-int main(){
+int main() {
 
+    string dodatkoweWyposazenieTab[4] = { "Radio", "Klimatyzacja", "Nawigacja", "Podgrzewane fotele" };
+    Zamowienie zamowienie("Toyota", "Camry", 2.5, 4, 200, 300, 17, dodatkoweWyposazenieTab);
+
+
+    FabrykaSamochodow fabryka("Fabryka Toyota");
+
+
+    Samochod* samochod = fabryka.wyprodukujSamochod(&zamowienie);
+
+
+    samochod->wyswietlSpecifikacje();
+
+    DodatkoweWyposazenie* dodatkoweWyposazenie = new DodatkoweWyposazenie("System audio premium");
+    samochod->dodajWyposazenie(dodatkoweWyposazenie);
+
+    samochod->wyswietlSpecifikacje();
+
+    delete samochod;
+    delete dodatkoweWyposazenie;
 
     return 0;
 }
