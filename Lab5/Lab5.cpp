@@ -121,7 +121,7 @@ class FabrykaSamochodow {
         Samochod* samochod = new Samochod(zamowienie->getMarka(), zamowienie->getModel(), zamowienie->getPojemnoscSilnika(),
             zamowienie->getLiczbaCylindrowSylnika(), zamowienie->getMocSilnika(), zamowienie->getMaxMomentObrotowy(),
             zamowienie->getRozmiarKol());
-        doposazWyprodukowaneAuto(samochod,zamowienie);
+        //doposazWyprodukowaneAuto(samochod,zamowienie);
         return samochod;
     }
         

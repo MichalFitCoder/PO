@@ -22,6 +22,7 @@ class SklepPapierniczy{
     void dodajNaStan(ProduktPapierniczy* produkt){
         produktyNaStanie[aktualnaLiczbaProduktow++] = produkt;
     };
+    
     void zdejmijZeStanu(ProduktPapierniczy* produkt){
         for(int i = 0 ; i < aktualnaLiczbaProduktow ; i ++){
             if(produktyNaStanie[i] == produkt){
@@ -30,6 +31,7 @@ class SklepPapierniczy{
             }
         }
     };
+
     ProduktPapierniczy* znajdzProdukt(string rodzaj, string nazwa){
         for(int i = 0 ; i < this->aktualnaLiczbaProduktow ; i++ ){
             if(this->produktyNaStanie[i]->getRodzaj() == rodzaj && this->produktyNaStanie[i]->getNazwa() == nazwa){
@@ -37,6 +39,7 @@ class SklepPapierniczy{
             }
         }
     };
+
     void wyswietlProdukty(){
         if(this->aktualnaLiczbaProduktow == 0){
             cout << "Brak produktow do wyswietlenia\n ";
@@ -47,6 +50,7 @@ class SklepPapierniczy{
             " Cena: " << this->produktyNaStanie[i]->getCena() << endl;
         }
     };
+
     SklepPapierniczy(){
         aktualnaLiczbaProduktow = 0;
         for(int i = 0 ; i < 1600 ; i++){
