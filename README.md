@@ -9,7 +9,7 @@ This repository contains a collection of small C++ programs that demonstrate key
 - **Polymorphism**: Examples of function overloading, operator overloading, and virtual functions.
 - **Abstraction**: Usage of abstract classes and interfaces.
 - **Design Patterns**: Implementations of common patterns like Singleton, Factory, and Observer.
-- 
+
 - ## Prerequisites
 - C++17 or later
 - A C++ compiler (GCC, Clang, or MSVC)
