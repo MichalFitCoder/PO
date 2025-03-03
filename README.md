@@ -20,6 +20,6 @@ This repository contains a collection of small C++ programs that demonstrate key
 ```bash
 g++ src/01_encapsulation/example.cpp -o example
 ./example
-
+```
 ## Contact
 For any questions or contributions, feel free to reach out!
